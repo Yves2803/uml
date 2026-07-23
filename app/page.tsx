@@ -106,6 +106,7 @@ export default function Page() {
         </header>
 
         <div className="page">
+          {activeNav === "Accueil" && <>
           <section className="hero">
             <div>
               <span className="eyebrow"><Sparkles size={14} /> Sélection personnalisée</span>
@@ -170,6 +171,99 @@ export default function Page() {
             <div className="session-status"><CircleCheck size={17} /> Inscription confirmée</div>
             <button onClick={() => notify("La session a été ajoutée à votre agenda.")}>Voir les détails <ArrowRight size={16} /></button>
           </section>
+          </>}
+
+          {activeNav === "Catalogue" && (
+            <section className="view-section">
+              <div className="view-heading">
+                <div><span className="section-kicker">Explorez</span><h1>Catalogue des formations</h1><p>Une sélection adaptée à votre profil, parmi les organismes agréés par l’entreprise.</p></div>
+                <div className="catalog-count"><strong>{filtered.length}</strong><span>formations</span></div>
+              </div>
+              <div className="toolbar catalog-toolbar">
+                <div className="search"><Search size={18} /><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Rechercher par titre ou catégorie..." /></div>
+                <div className="select-wrap"><select value={format} onChange={(e) => setFormat(e.target.value)}><option>Tous les formats</option><option>En ligne</option><option>Présentiel</option><option>Hybride</option></select><ChevronDown size={16} /></div>
+              </div>
+              <div className="category-tabs">
+                {categories.map((c) => <button key={c} className={category === c ? "active" : ""} onClick={() => setCategory(c)}>{c}</button>)}
+              </div>
+              <div className="training-grid">
+                {filtered.map((training) => (
+                  <article className="training-card" key={training.id}>
+                    <div className={`card-visual ${training.color}`}>
+                      <span className="match"><Sparkles size={12} /> {training.match}% pour vous</span>
+                      <button className={`heart ${favorites.includes(training.id) ? "liked" : ""}`} onClick={() => setFavorites((f) => f.includes(training.id) ? f.filter((id) => id !== training.id) : [...f, training.id])}><Heart size={18} fill="currentColor" /></button>
+                      <div className="training-icon"><TrainingIcon name={training.icon} /></div>
+                    </div>
+                    <div className="card-body">
+                      <div className="card-meta"><span>{training.category}</span><span className="format"><MonitorPlay size={13} />{training.format}</span></div>
+                      <h3>{training.title}</h3><p>{training.description}</p>
+                      <div className="details"><span><Clock3 size={15} /> {training.duration}</span><span><BookOpen size={15} /> {training.level}</span></div>
+                      <div className="card-footer"><span className="rating"><Star size={15} fill="currentColor" /><b>{training.rating}</b><small>({training.reviews})</small></span><button onClick={() => setSelected(training)}>Découvrir <ArrowRight size={15} /></button></div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+              {filtered.length === 0 && <div className="empty"><Search size={28} /><h3>Aucune formation trouvée</h3><p>Essayez de modifier vos filtres.</p></div>}
+            </section>
+          )}
+
+          {activeNav === "Mes demandes" && (
+            <section className="view-section">
+              <div className="view-heading"><div><span className="section-kicker">Suivi</span><h1>Mes demandes</h1><p>Retrouvez vos demandes de formation et suivez leur avancement.</p></div><button className="new-request" onClick={() => setActiveNav("Catalogue")}><BookOpen size={17} /> Nouvelle demande</button></div>
+              <div className="request-summary">
+                <div><span className="summary-icon pending"><Clock3 /></span><span><strong>{requested.length + 1}</strong><small>En attente</small></span></div>
+                <div><span className="summary-icon approved"><CircleCheck /></span><span><strong>2</strong><small>Approuvées</small></span></div>
+                <div><span className="summary-icon total"><FileText /></span><span><strong>{requested.length + 4}</strong><small>Total cette année</small></span></div>
+              </div>
+              <div className="data-panel">
+                <div className="panel-head"><h2>Demandes récentes</h2><span>Mise à jour aujourd’hui</span></div>
+                <div className="request-list">
+                  {requested.map((id) => {
+                    const t = trainings.find((item) => item.id === id)!;
+                    return <div className="request-row" key={id}><span className={`row-icon ${t.color}`}><TrainingIcon name={t.icon} /></span><div className="row-main"><strong>{t.title}</strong><small>Demandée aujourd’hui · {t.format}</small></div><span className="status pending">En attente de validation</span><button onClick={() => notify("La demande a été ouverte.")}><ChevronRight /></button></div>;
+                  })}
+                  <div className="request-row"><span className="row-icon green"><Zap /></span><div className="row-main"><strong>Piloter un projet agile</strong><small>Demandée le 14 juillet 2026 · Présentiel</small></div><span className="status pending">En attente de validation</span><button><ChevronRight /></button></div>
+                  <div className="request-row"><span className="row-icon blue"><Laptop /></span><div className="row-main"><strong>Excel : tableaux de bord</strong><small>Approuvée le 2 juin 2026 · En ligne</small></div><span className="status approved">Approuvée</span><button><ChevronRight /></button></div>
+                  <div className="request-row"><span className="row-icon coral"><Users /></span><div className="row-main"><strong>Conduire une réunion efficace</strong><small>Inscription confirmée · 18 septembre 2026</small></div><span className="status registered">Inscrit</span><button><ChevronRight /></button></div>
+                </div>
+              </div>
+            </section>
+          )}
+
+          {activeNav === "Mon agenda" && (
+            <section className="view-section">
+              <div className="view-heading"><div><span className="section-kicker">Planning</span><h1>Mon agenda formation</h1><p>Vos prochaines sessions et échéances au même endroit.</p></div><button className="outline-action" onClick={() => notify("Agenda synchronisé.")}><CalendarDays size={17} /> Synchroniser l’agenda</button></div>
+              <div className="agenda-layout">
+                <div className="calendar-card">
+                  <div className="calendar-title"><button>‹</button><strong>Septembre 2026</strong><button>›</button></div>
+                  <div className="weekdays">{["Lun","Mar","Mer","Jeu","Ven","Sam","Dim"].map((d) => <span key={d}>{d}</span>)}</div>
+                  <div className="calendar-grid">
+                    {[31,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,1,2,3,4].map((d,i) => <button key={i} className={`${i === 0 || i > 30 ? "muted" : ""} ${d === 18 && i < 30 ? "event-day" : ""}`}>{d}{d === 18 && i < 30 && <i />}</button>)}
+                  </div>
+                </div>
+                <div className="agenda-events">
+                  <h2>À venir</h2>
+                  <div className="agenda-event"><span className="event-date"><b>18</b>SEP</span><div><small>09:00 – 17:00</small><strong>Conduire une réunion efficace</strong><p><MapPin size={13} /> Campus République, Paris</p></div><span className="status registered">Confirmée</span></div>
+                  <div className="agenda-event"><span className="event-date purple"><b>21</b>SEP</span><div><small>14:00 – 17:30</small><strong>Prise de parole avec impact</strong><p><MonitorPlay size={13} /> Classe virtuelle</p></div><span className="status pending">À confirmer</span></div>
+                  <div className="agenda-event"><span className="event-date green"><b>05</b>OCT</span><div><small>09:00 – 17:00</small><strong>Piloter un projet agile</strong><p><MapPin size={13} /> Campus La Défense</p></div><span className="status approved">Validée</span></div>
+                </div>
+              </div>
+            </section>
+          )}
+
+          {activeNav === "Mon parcours" && (
+            <section className="view-section">
+              <div className="view-heading"><div><span className="section-kicker">Progression</span><h1>Mon parcours</h1><p>Visualisez vos compétences acquises et vos objectifs de développement.</p></div><button className="outline-action" onClick={() => notify("Votre attestation a été préparée.")}><FileText size={17} /> Télécharger mon bilan</button></div>
+              <div className="progress-hero">
+                <div className="progress-ring"><span><strong>72%</strong><small>Objectif annuel</small></span></div>
+                <div><span className="section-kicker">Année 2026</span><h2>Vous progressez à un excellent rythme</h2><p>18 heures réalisées sur votre objectif de 25 heures. Encore une formation pour le dépasser.</p><div className="progress-bar"><i /></div><small>18h réalisées <b>25h objectif</b></small></div>
+              </div>
+              <div className="journey-grid">
+                <div className="data-panel"><div className="panel-head"><h2>Compétences développées</h2><span>6 compétences</span></div><div className="skills-list">{[["Gestion de projet",86],["Communication",74],["Bureautique",68],["Management",52]].map(([name,value]) => <div key={name as string}><span><strong>{name}</strong><small>{value}%</small></span><div><i style={{width:`${value}%`}} /></div></div>)}</div></div>
+                <div className="data-panel"><div className="panel-head"><h2>Formations terminées</h2><span>2026</span></div><div className="completed-list"><div><CircleCheck /><span><strong>Excel : tableaux de bord</strong><small>Terminée le 20 juin · 8h</small></span><button onClick={() => notify("Attestation téléchargée.")}><FileText /></button></div><div><CircleCheck /><span><strong>Fondamentaux de la gestion de projet</strong><small>Terminée le 12 mars · 10h</small></span><button onClick={() => notify("Attestation téléchargée.")}><FileText /></button></div></div></div>
+              </div>
+            </section>
+          )}
         </div>
       </section>
 
