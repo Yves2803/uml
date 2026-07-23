@@ -167,7 +167,7 @@ export default function Page() {
 
           <section className="next-session">
             <div className="date-card"><strong>18</strong><span>SEP</span></div>
-            <div className="session-copy"><span className="section-kicker">Votre prochaine formation</span><h3>Conduire une réunion efficace</h3><p><Clock3 size={15} /> 09:00 – 17:00 <MapPin size={15} /> Campus République, Paris</p></div>
+            <div className="session-copy"><span className="section-kicker">Votre prochaine formation</span><h3>Conduire une réunion efficace</h3><p><Clock3 size={15} /> 09:00 – 17:00 <MapPin size={15} /> Campus Plateau, Abidjan</p></div>
             <div className="session-status"><CircleCheck size={17} /> Inscription confirmée</div>
             <button onClick={() => notify("La session a été ajoutée à votre agenda.")}>Voir les détails <ArrowRight size={16} /></button>
           </section>
@@ -243,9 +243,9 @@ export default function Page() {
                 </div>
                 <div className="agenda-events">
                   <h2>À venir</h2>
-                  <div className="agenda-event"><span className="event-date"><b>18</b>SEP</span><div><small>09:00 – 17:00</small><strong>Conduire une réunion efficace</strong><p><MapPin size={13} /> Campus République, Paris</p></div><span className="status registered">Confirmée</span></div>
+                  <div className="agenda-event"><span className="event-date"><b>18</b>SEP</span><div><small>09:00 – 17:00</small><strong>Conduire une réunion efficace</strong><p><MapPin size={13} /> Campus Plateau, Abidjan</p></div><span className="status registered">Confirmée</span></div>
                   <div className="agenda-event"><span className="event-date purple"><b>21</b>SEP</span><div><small>14:00 – 17:30</small><strong>Prise de parole avec impact</strong><p><MonitorPlay size={13} /> Classe virtuelle</p></div><span className="status pending">À confirmer</span></div>
-                  <div className="agenda-event"><span className="event-date green"><b>05</b>OCT</span><div><small>09:00 – 17:00</small><strong>Piloter un projet agile</strong><p><MapPin size={13} /> Campus La Défense</p></div><span className="status approved">Validée</span></div>
+                  <div className="agenda-event"><span className="event-date green"><b>05</b>OCT</span><div><small>09:00 – 17:00</small><strong>Piloter un projet agile</strong><p><MapPin size={13} /> Campus Cocody, Abidjan</p></div><span className="status approved">Validée</span></div>
                 </div>
               </div>
             </section>
