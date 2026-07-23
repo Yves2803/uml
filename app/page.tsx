@@ -66,7 +66,7 @@ export default function Page() {
   const requestTraining = (training: Training) => {
     setRequested((items) => [...new Set([...items, training.id])]);
     setSelected(null);
-    notify("Votre demande a bien été transmise à Sophie.");
+    notify("Votre demande a bien été transmise à Aïssata.");
   };
 
   return (
@@ -86,12 +86,12 @@ export default function Page() {
           ))}
         </nav>
         <div className="advisor-card">
-          <div className="advisor-avatar">SM<span className="online" /></div>
-          <div><span>Votre responsable formation</span><strong>Sophie Martin</strong></div>
-          <button onClick={() => notify("Message envoyé à Sophie Martin.")}><Send size={16} /></button>
+          <div className="advisor-avatar">AD<span className="online" /></div>
+          <div><span>Votre responsable formation</span><strong>Aïssata Diallo</strong></div>
+          <button onClick={() => notify("Message envoyé à Aïssata Diallo.")}><Send size={16} /></button>
         </div>
         <div className="sidebar-foot">
-          <button><span className="mini-avatar">TD</span><span><strong>Thomas Dubois</strong><small>Chef de projet</small></span><ChevronRight size={17} /></button>
+          <button><span className="mini-avatar">KY</span><span><strong>Kouassi Yao</strong><small>Chef de projet</small></span><ChevronRight size={17} /></button>
         </div>
       </aside>
 
@@ -101,7 +101,7 @@ export default function Page() {
           <div className="breadcrumb">Espace collaborateur <ChevronRight size={14} /> <strong>{activeNav}</strong></div>
           <div className="top-actions">
             <button className="icon-btn" onClick={() => notify("Vous n’avez aucune nouvelle notification.")}><Bell size={20} /><i /></button>
-            <button className="profile-pill"><span>TD</span><strong>Thomas</strong><ChevronDown size={16} /></button>
+            <button className="profile-pill"><span>KY</span><strong>Kouassi</strong><ChevronDown size={16} /></button>
           </div>
         </header>
 
@@ -110,7 +110,7 @@ export default function Page() {
           <section className="hero">
             <div>
               <span className="eyebrow"><Sparkles size={14} /> Sélection personnalisée</span>
-              <h1>Bonjour Thomas, prêt à développer<br />vos <em>compétences ?</em></h1>
+              <h1>Bonjour Kouassi, prêt à développer<br />vos <em>compétences ?</em></h1>
               <p>Découvrez des formations choisies selon votre métier, vos objectifs et votre parcours.</p>
               <div className="hero-stats">
                 <div><strong>24</strong><span>formations recommandées</span></div>
@@ -280,7 +280,7 @@ export default function Page() {
               <div><MonitorPlay /><span><small>Format</small><strong>{selected.format}</strong></span></div>
               <div><CalendarDays /><span><small>Prochaine session</small><strong>{selected.date}</strong></span></div>
             </div>
-            <div className="approval-note"><UserRound size={20} /><span><strong>Validation requise</strong><small>Votre demande sera envoyée à Sophie Martin, responsable formation.</small></span></div>
+            <div className="approval-note"><UserRound size={20} /><span><strong>Validation requise</strong><small>Votre demande sera envoyée à Aïssata Diallo, responsable formation.</small></span></div>
             <button className="primary-action" disabled={requested.includes(selected.id)} onClick={() => requestTraining(selected)}>
               {requested.includes(selected.id) ? "Demande déjà transmise" : <>Faire une demande <ArrowRight size={18} /></>}
             </button>
